@@ -1,3 +1,11 @@
+# Choix d'Ici - Front
+
+Partie Front du Site Choix d'Ici
+
+# Git Flow
+
+[Git Flow - Atlassian](https://www.atlassian.com/fr/git/tutorials/comparing-workflows/gitflow-workflow)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
