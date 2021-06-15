@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import WeeklyEvent from './WeeklyEvent';
+import { getEventsOfDay, IEvent } from './EventUtil';
+import EventDay from './EventDay';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -40,6 +42,7 @@ const DayEventPaper = withStyles({
 function CalendarEvent() {
   const classes = useStyles();
   const [value, onChange] = useState(new Date());
+  const events = getEventsOfDay();
 
   return (
     <div className={classes.calendarEvent}>
@@ -51,13 +54,10 @@ function CalendarEvent() {
           value={value}
         />
       </CalendarPaper>
-      <DayEventPaper elevation={0} className={classes.dayEvents}>
-        <Typography variant="h5" component="h2">
-          Nom Event
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Lieu Event, le Date Event
-        </Typography>
+      <DayEventPaper elevation={0} className={classes.dayEvents} >
+        {events.map((thatEvent: IEvent, i) => {
+          return <EventDay name={thatEvent.name} location={thatEvent.location} date={thatEvent.date} />;
+        })}
       </DayEventPaper>
     </div>
   );
