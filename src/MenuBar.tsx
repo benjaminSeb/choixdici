@@ -1,7 +1,7 @@
 import { Button, createStyles, makeStyles, withStyles } from '@material-ui/core';
-import { useState } from 'react';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { ToggleButton } from '@material-ui/lab';
+import { ActivePageEnum } from './ActivePageEnum';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -73,12 +73,17 @@ const HomeIcon = withStyles({
   },
 })(LocationOnIcon);
 
-function MenuBar() {
-  const classes = useStyles();
-  const [activeItem, setActiveMenu] = useState('home');
+interface IMenuBarProps {
+  setActivePage: (param: ActivePageEnum) => void;
+  activePage: ActivePageEnum;
+}
 
-  const handleMenuButtonClick = (value: string): void => {
-    setActiveMenu(value);
+function MenuBar(props: IMenuBarProps) {
+  const classes = useStyles();
+  const {activePage, setActivePage} = props;
+
+  const handleMenuButtonClick = (value: ActivePageEnum): void => {
+    setActivePage(value);
   }
 
   return (
@@ -90,22 +95,22 @@ function MenuBar() {
         </HomeButton>
       </div>
       <div className={classes.menu}>
-        <MenuButton onClick={() => handleMenuButtonClick('home')} selected={activeItem === 'home'} >
+        <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.HOME)} selected={activePage === ActivePageEnum.HOME} >
           Accueil
         </MenuButton>
-        <MenuButton onClick={() => handleMenuButtonClick('agenda')} selected={activeItem === 'agenda'} >
+        <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.AGENDA)} selected={activePage === ActivePageEnum.AGENDA} >
           Agenda
         </MenuButton>
-        <MenuButton onClick={() => handleMenuButtonClick('repertoire')} selected={activeItem === 'repertoire'} >
+        <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.REPERTOIRE)} selected={activePage === ActivePageEnum.REPERTOIRE} >
           Répertoire
         </MenuButton>
-        <MenuButton onClick={() => handleMenuButtonClick('reportages')} selected={activeItem === 'reportages'} >
+        <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.REPORTAGES)} selected={activePage === ActivePageEnum.REPORTAGES} >
           Reportages
         </MenuButton>
-        <MenuButton onClick={() => handleMenuButtonClick('forum')} selected={activeItem === 'forum'} >
+        <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.FORUM)} selected={activePage === ActivePageEnum.FORUM} >
           Forum
         </MenuButton>
-        <MenuButton onClick={() => handleMenuButtonClick('contacts')} selected={activeItem === 'contacts'} >
+        <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.CONTACTS)} selected={activePage === ActivePageEnum.CONTACTS} >
           Contacts
         </MenuButton>
       </div>

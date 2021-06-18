@@ -1,10 +1,10 @@
-import { createStyles, makeStyles, Paper, Typography, withStyles } from '@material-ui/core';
+import { Button, createStyles, makeStyles, Paper, withStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import WeeklyEvent from './WeeklyEvent';
-import { getEventsOfDay, IEvent } from './EventUtil';
 import EventDay from './EventDay';
+import { getEventsOfDay, IEvent } from './EventUtil';
+import WeeklyEvent from './WeeklyEvent';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -39,6 +39,17 @@ const DayEventPaper = withStyles({
   }
 })(Paper);
 
+const VoirPlusButton = withStyles({
+  root : {
+    backgroundColor: 'white',
+    width: '100%',
+    marginTop: '1em',
+    borderRadius: '2em',
+    fontWeight: 'bold',
+    textTransform: 'none',
+  }
+})(Button);
+
 function CalendarEvent() {
   const classes = useStyles();
   const [value, onChange] = useState(new Date());
@@ -55,9 +66,12 @@ function CalendarEvent() {
         />
       </CalendarPaper>
       <DayEventPaper elevation={0} className={classes.dayEvents} >
-        {events.map((thatEvent: IEvent, i) => {
+        {events.slice(0, 3).map((thatEvent: IEvent, i) => {
           return <EventDay name={thatEvent.name} location={thatEvent.location} date={thatEvent.date} />;
         })}
+        {/* {events.length > 3 &&  */}
+          <VoirPlusButton variant="contained">Voir +</VoirPlusButton>
+        {/* } */}
       </DayEventPaper>
     </div>
   );
