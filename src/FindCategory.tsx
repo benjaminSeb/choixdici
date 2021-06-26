@@ -6,13 +6,16 @@ const useStyles = makeStyles(() =>
   createStyles({
     editoDiv: {
       width: '100%',
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center'
     },
   }),
 );
 
 const CategoryButton = withStyles({
   root : {
-    backgroundColor: 'white',
+    backgroundColor: 'grey',
     margin: '2em',
     padding: '1em',
     fontSize: '25px',

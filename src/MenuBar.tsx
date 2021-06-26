@@ -61,6 +61,7 @@ const HomeButton = withStyles({
     fontSize: '25px',
     fontWeight: 'bold',
     textTransform: 'none',
+    borderRadius: '2em',
     '&:hover': {
       backgroundColor: 'white',
     }
@@ -89,15 +90,12 @@ function MenuBar(props: IMenuBarProps) {
   return (
     <div className={classes.header}>
       <div className={classes.home}>
-        <HomeButton>
+        <HomeButton onClick={() => handleMenuButtonClick(ActivePageEnum.HOME)}>
           <HomeIcon fontSize='large' />
           choix d'ici
         </HomeButton>
       </div>
       <div className={classes.menu}>
-        <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.HOME)} selected={activePage === ActivePageEnum.HOME} >
-          Accueil
-        </MenuButton>
         <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.AGENDA)} selected={activePage === ActivePageEnum.AGENDA} >
           Agenda
         </MenuButton>
@@ -106,9 +104,6 @@ function MenuBar(props: IMenuBarProps) {
         </MenuButton>
         <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.REPORTAGES)} selected={activePage === ActivePageEnum.REPORTAGES} >
           Reportages
-        </MenuButton>
-        <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.FORUM)} selected={activePage === ActivePageEnum.FORUM} >
-          Forum
         </MenuButton>
         <MenuButton onClick={() => handleMenuButtonClick(ActivePageEnum.CONTACTS)} selected={activePage === ActivePageEnum.CONTACTS} >
           Contacts

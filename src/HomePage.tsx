@@ -5,8 +5,9 @@ import { ActivePageEnum } from './ActivePageEnum';
 import FindCategory from './FindCategory';
 
 interface IHomePageProps {
-  setActivePage: (param: ActivePageEnum) => void;
-  activePage: string;
+  pageProps: {
+    setActivePage: (param: ActivePageEnum) => void;
+  };
 }
 
 function HomePage(props: IHomePageProps) {

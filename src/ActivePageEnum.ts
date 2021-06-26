@@ -3,6 +3,5 @@ export enum ActivePageEnum {
   AGENDA = 'AGENDA',
   REPERTOIRE = 'REPERTOIRE',
   REPORTAGES = 'REPORTAGES',
-  FORUM = 'FORUM',
   CONTACTS = 'CONTACTS',
 }

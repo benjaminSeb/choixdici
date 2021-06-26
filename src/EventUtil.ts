@@ -5,7 +5,7 @@ export interface IEvent {
 }
 
 export const getEventsOfDay = (date?: Date): IEvent[] => {
-  return [event1, event2, event3];
+  return [event1, event2, event3, event4, event5, event6];
 };
 
 const event1: IEvent = {
@@ -21,6 +21,24 @@ const event2: IEvent = {
 };
 
 const event3: IEvent = {
+  name: "3e evènement",
+  location: "inconnu",
+  date: "lundi",
+};
+
+const event4: IEvent = {
+  name: "3e evènement",
+  location: "inconnu",
+  date: "lundi",
+};
+
+const event5: IEvent = {
+  name: "3e evènement",
+  location: "inconnu",
+  date: "lundi",
+};
+
+const event6: IEvent = {
   name: "3e evènement",
   location: "inconnu",
   date: "lundi",
