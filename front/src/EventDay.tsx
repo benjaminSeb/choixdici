@@ -2,14 +2,20 @@ import { Typography } from '@material-ui/core';
 import React from 'react';
 import { IEvent } from './EventUtil';
 
-const EventDay = ({name, location, date}: IEvent) => {
+interface IEventDayProps {
+  event: IEvent;
+}
+
+const EventDay = (props: IEventDayProps) => {
+  const {event} = props;
+
   return (
     <div>
       <Typography variant="h5" component="h2">
-        {name}
+        {event.name}
       </Typography>
       <Typography variant="body2" color="textSecondary" component="p">
-        {location}, le {date}
+        {event.location}, le {event.date}
       </Typography>
     </div>
   );

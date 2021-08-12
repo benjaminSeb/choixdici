@@ -67,11 +67,11 @@ function CalendarEvent() {
       </CalendarPaper>
       <DayEventPaper elevation={0} className={classes.dayEvents} >
         {events.slice(0, 3).map((thatEvent: IEvent, i) => {
-          return <EventDay name={thatEvent.name} location={thatEvent.location} date={thatEvent.date} />;
+          return <EventDay event={thatEvent} />;
         })}
-        {/* {events.length > 3 &&  */}
+        {events.length > 3 && 
           <VoirPlusButton variant="contained">Voir +</VoirPlusButton>
-        {/* } */}
+        }
       </DayEventPaper>
     </div>
   );

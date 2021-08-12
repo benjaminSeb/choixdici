@@ -11,21 +11,21 @@ function App() {
   const getContent = (): ReactElement => {
     switch(activePage) { 
       case ActivePageEnum.HOME: { 
-         return (<HomePage
+        return (<HomePage
           pageProps={{setActivePage}}
         />); 
       } 
       case ActivePageEnum.AGENDA: { 
-         return (<AgendaPage
-          pageProps={{setActivePage}}
-         />);
+          return (<AgendaPage
+            pageProps={{setActivePage}}
+          />);
       } 
       default: { 
         return (<HomePage
           pageProps={{setActivePage}}
         />);  
       } 
-   } 
+    } 
   }
 
   return (
