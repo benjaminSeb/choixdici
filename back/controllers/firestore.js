@@ -1,6 +1,7 @@
 
 const admin = require('firebase-admin');
 const serviceAccount = require('../choixdici-firestore.json');
+const bcrypt = require('bcrypt');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -8,12 +9,13 @@ admin.initializeApp({
 let db = admin.firestore();
 
 exports.createFirestore = async (req, res, next) => {
+    const hashedPwd = bcrypt.hashSync(req.query.pwd, 10);
     const docRef = db.collection('users').doc('alovelace');
-
     await docRef.set({
         first: 'Ada',
         last: 'Lovelace',
-        born: 1815
+        born: 1815,
+        pwd: hashedPwd
     });
 
     res.status(201).json({
