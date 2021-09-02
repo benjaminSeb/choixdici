@@ -2,6 +2,7 @@ const express = require("express");
 const firestoreRoutes = require("./routes/firestore");
 const authRoutes = require("./routes/auth");
 const structureRoutes = require("./routes/structure");
+const eventRoutes = require("./routes/event");
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.use(express.json());
 app.use("/firestore", firestoreRoutes);
 app.use("/auth", authRoutes);
 app.use("/structure", structureRoutes);
+app.use("/event", eventRoutes);
 
 module.exports = app;

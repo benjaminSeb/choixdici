@@ -67,7 +67,7 @@ exports.updateStructure = async (req, res, next) => {
 };
 
 exports.deleteStructure = async (req, res, next) => {
-	await db.collection("structure").doc("req.body.name").delete();
+	await db.collection("structure").doc(req.body.name).delete();
 
 	res.status(200).json({
 		message: "Structure supprimée !",
