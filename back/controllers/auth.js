@@ -2,11 +2,16 @@ const db = require("./initConnection").default;
 const bcrypt = require("bcrypt");
 
 exports.createUser = async (req, res, next) => {
-	const existingUser = await db.collection("user").get(req.body.email);
+	const existingUser = await db
+		.collection("user")
+		.where("email", "==", req.body.email)
+		.limit(1)
+		.get();
 	if (existingUser.empty) {
 		const hashedPwd = bcrypt.hashSync(req.body.pwd, 10);
-		const docRef = db.collection("user").doc(req.body.email);
-		await docRef.set({
+		const docRef = db.collection("user");
+		await docRef.add({
+			email: req.body.email,
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
 			admin: req.body.admin,
@@ -25,7 +30,11 @@ exports.createUser = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-	const existingUser = await db.collection("user").get(req.body.email);
+	const existingUser = await db
+		.collection("user")
+		.where("email", "==", req.body.email)
+		.limit(1)
+		.get();
 	if (existingUser.empty) {
 		res.status(401).json({
 			message: `Utilisateur non trouvé avec l'identifiant ${req.body.email}`,
@@ -39,7 +48,15 @@ exports.login = async (req, res, next) => {
 						.status(401)
 						.json({ error: "Authentification incorrect !" });
 				}
-				res.status(200).json(existingUser.docs[0].data());
+				res
+					.status(200)
+					.json(
+						Object.fromEntries(
+							Object.entries(existingUser.docs[0].data()).filter(
+								([key]) => key !== "pwd"
+							)
+						)
+					);
 			})
 			.catch((error) => res.status(500).json({ error }));
 	}
