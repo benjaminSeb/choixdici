@@ -9,6 +9,10 @@ router.use("/get", eventCtrl.getEvent);
 
 router.use("/getAll", eventCtrl.getAllEvent);
 
+router.use("/getAllForStruct", eventCtrl.getAllForStruct);
+
+router.use("/getAllForCategorie", eventCtrl.getAllForCategorie);
+
 router.use("/update", eventCtrl.updateEvent);
 
 router.use("/delete", eventCtrl.deleteEvent);

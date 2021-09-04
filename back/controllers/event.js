@@ -3,22 +3,32 @@ const db = require("./initConnection").default;
 exports.createEvent = async (req, res, next) => {
 	// Vérification autorisation user
 
-	const existingEvent = await db.collection("event").doc(req.body.name).get();
-	if (!existingEvent.exists) {
-		const docRef = db.collection("event").doc(req.body.name);
-		await docRef.set({
-			date: req.body.date,
-			lieu: req.body.lieu,
-			categorie: req.body.categorie,
-			structure: req.body.structure,
-		});
+	const existingStructure = await db
+		.collection("structure")
+		.doc(req.body.structure)
+		.get();
+	if (existingStructure.exists) {
+		const existingEvent = await db.collection("event").doc(req.body.name).get();
+		if (!existingEvent.exists) {
+			const docRef = db.collection("event").doc(req.body.name);
+			await docRef.set({
+				date: req.body.date,
+				lieu: req.body.lieu,
+				categorie: req.body.categorie,
+				structure: req.body.structure,
+			});
 
-		res.status(201).json({
-			message: "Event créé !",
-		});
+			res.status(201).json({
+				message: "Event créé !",
+			});
+		} else {
+			res.status(500).json({
+				message: `Event déjà existante avec le nom ${req.body.name}`,
+			});
+		}
 	} else {
 		res.status(500).json({
-			message: `Event déjà existante avec le nom ${req.body.name}`,
+			message: `Structure non trouvée pour l'id ${req.body.structure}`,
 		});
 	}
 };
@@ -37,6 +47,32 @@ exports.getEvent = async (req, res, next) => {
 exports.getAllEvent = async (req, res, next) => {
 	const events = await db.collection("event").get();
 	res.status(200).json(events.docs.map((doc) => doc.data()));
+};
+
+exports.getAllForStruct = async (req, res, next) => {
+	const existingStructure = await db
+		.collection("structure")
+		.doc(req.body.structure)
+		.get();
+	if (existingStructure.exists) {
+		const structureEvents = await db
+			.collection("event")
+			.where("structure", "==", req.body.structure)
+			.get();
+		res.status(200).json(structureEvents.docs.map((doc) => doc.data()));
+	} else {
+		res.status(500).json({
+			message: `Structure non trouvée pour l'id ${req.body.structure}`,
+		});
+	}
+};
+
+exports.getAllForCategorie = async (req, res, next) => {
+	const categorieEvents = await db
+		.collection("event")
+		.where("categorie", "==", req.body.categorie)
+		.get();
+	res.status(200).json(categorieEvents.docs.map((doc) => doc.data()));
 };
 
 exports.updateEvent = async (req, res, next) => {
