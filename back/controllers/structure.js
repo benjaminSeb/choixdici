@@ -2,25 +2,34 @@ const db = require("./initConnection").default;
 
 exports.createStructure = async (req, res, next) => {
 	// Vérification autorisation user
-
-	const existingStructure = await db
-		.collection("structure")
-		.doc(req.body.name)
+	const user = await db
+		.collection("user")
+		.where("email", "==", req.body.superuser)
 		.get();
-	if (!existingStructure.exists) {
-		const docRef = db.collection("structure").doc(req.body.name);
-		await docRef.set({
-			localite: req.body.localite,
-			categorie: req.body.categorie,
-		});
-
-		res.status(201).json({
-			message: "Structure créée !",
+	if (user.empty || user.docs[0].get("admin") != true) {
+		res.status(403).json({
+			message: `Vous n'êtes pas autorisé à créer une nouvelle structure`,
 		});
 	} else {
-		res.status(500).json({
-			message: `Structure déjà existante avec le nom ${req.body.name}`,
-		});
+		const existingStructure = await db
+			.collection("structure")
+			.doc(req.body.name)
+			.get();
+		if (!existingStructure.exists) {
+			const docRef = db.collection("structure").doc(req.body.name);
+			await docRef.set({
+				localite: req.body.localite,
+				categorie: req.body.categorie,
+			});
+
+			res.status(201).json({
+				message: "Structure créée !",
+			});
+		} else {
+			res.status(500).json({
+				message: `Structure déjà existante avec le nom ${req.body.name}`,
+			});
+		}
 	}
 };
 

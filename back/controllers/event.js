@@ -2,34 +2,46 @@ const db = require("./initConnection").default;
 
 exports.createEvent = async (req, res, next) => {
 	// Vérification autorisation user
-
-	const existingStructure = await db
-		.collection("structure")
-		.doc(req.body.structure)
+	const user = await db
+		.collection("user")
+		.where("email", "==", req.body.superuser)
 		.get();
-	if (existingStructure.exists) {
-		const existingEvent = await db.collection("event").doc(req.body.name).get();
-		if (!existingEvent.exists) {
-			const docRef = db.collection("event").doc(req.body.name);
-			await docRef.set({
-				date: req.body.date,
-				lieu: req.body.lieu,
-				categorie: req.body.categorie,
-				structure: req.body.structure,
-			});
+	if (user.empty || user.docs[0].get("admin") != true) {
+		res.status(403).json({
+			message: `Vous n'êtes pas autorisé à créer un nouvel évènement`,
+		});
+	} else {
+		const existingStructure = await db
+			.collection("structure")
+			.doc(req.body.structure)
+			.get();
+		if (existingStructure.exists) {
+			const existingEvent = await db
+				.collection("event")
+				.doc(req.body.name)
+				.get();
+			if (!existingEvent.exists) {
+				const docRef = db.collection("event").doc(req.body.name);
+				await docRef.set({
+					date: req.body.date,
+					lieu: req.body.lieu,
+					categorie: req.body.categorie,
+					structure: req.body.structure,
+				});
 
-			res.status(201).json({
-				message: "Event créé !",
-			});
+				res.status(201).json({
+					message: "Event créé !",
+				});
+			} else {
+				res.status(500).json({
+					message: `Event déjà existante avec le nom ${req.body.name}`,
+				});
+			}
 		} else {
 			res.status(500).json({
-				message: `Event déjà existante avec le nom ${req.body.name}`,
+				message: `Structure non trouvée pour l'id ${req.body.structure}`,
 			});
 		}
-	} else {
-		res.status(500).json({
-			message: `Structure non trouvée pour l'id ${req.body.structure}`,
-		});
 	}
 };
 
