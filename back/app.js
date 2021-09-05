@@ -1,5 +1,4 @@
 const express = require("express");
-const firestoreRoutes = require("./routes/firestore");
 const authRoutes = require("./routes/auth");
 const structureRoutes = require("./routes/structure");
 const eventRoutes = require("./routes/event");
@@ -12,16 +11,12 @@ app.use((req, res, next) => {
 		"Access-Control-Allow-Headers",
 		"Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
 	);
-	res.setHeader(
-		"Access-Control-Allow-Methods",
-		"GET, POST, PUT, DELETE, PATCH, OPTIONS"
-	);
+	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT");
 	next();
 });
 
 app.use(express.json());
 
-app.use("/firestore", firestoreRoutes);
 app.use("/auth", authRoutes);
 app.use("/structure", structureRoutes);
 app.use("/event", eventRoutes);

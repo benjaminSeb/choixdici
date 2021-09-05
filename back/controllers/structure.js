@@ -1,4 +1,5 @@
 const db = require("./initConnection").default;
+const { validationResult } = require("express-validator");
 
 exports.createStructure = async (req, res, next) => {
 	const errors = validationResult(req);
